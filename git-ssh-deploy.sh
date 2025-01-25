@@ -154,9 +154,14 @@ function apply_includes() {
         return
     fi
 
+    local dir=""
+    if [[ -n "$syncroot" ]]; then
+        dir="$syncroot/"
+    fi
+
     IFS=',' read -ra includes <<< "$includes_list"
     for include_entry in "${includes[@]}"; do
-        local include_path="${syncroot}${include_entry}"
+        local include_path="${dir}${include_entry}"
         if [[ -d "$include_path" ]]; then
             # Add all files under this directory
             while IFS= read -r found_file; do
@@ -214,10 +219,10 @@ function get_file_paths_list_to_push_or_delete() {
     local excluded_paths_raw=$(get_config "$env_name" "excludedpaths" || echo "")
     local included_paths_raw=$(get_config "$env_name" "includedpaths")
 
-    # Ensure syncroot ends with a slash if set
-    if [[ -n "$syncroot" && "${syncroot: -1}" != "/" ]]; then
-        syncroot="$syncroot/"
-    fi
+#    # Ensure syncroot ends with a slash if set
+#    if [[ -n "$syncroot" && "${syncroot: -1}" != "/" ]]; then
+#        syncroot="$syncroot/"
+#    fi
 
     # Prepare arrays for changed files (A/M) and removed files (D, or old side of R)
     local changed_files=()
