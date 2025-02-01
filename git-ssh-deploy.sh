@@ -190,7 +190,7 @@ function deduplicate_and_filter() {
     local filtered=()
     for file in "${unique[@]}"; do
         # Filter out dangerous paths: ../
-        if [[ "$file" =~ (^|/)../ ]]; then
+        if [[ "$file" =~ (^|/)\.\./ ]]; then
             continue
         fi
         filtered+=("$file")
