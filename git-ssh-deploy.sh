@@ -682,8 +682,6 @@ function deploy() {
         IFS=' ' read -r -a files_to_upload <<< "$changed_part"
         IFS=' ' read -r -a files_to_remove <<< "$deleted_part"
     fi
-    echo "files_to_upload: ${files_to_upload[@]}"
-    echo "files_to_remove: ${files_to_remove[@]}"
 
     # If we have nothing to upload or remove, exit early
     if [[ ${#files_to_upload[@]} -eq 0 && ${#files_to_remove[@]} -eq 0 ]]; then
@@ -795,6 +793,8 @@ function deploy() {
                 dir="$(dirname "$dir")"
             done
         done
+    else
+        echo "No files to remove."
     fi
 
     # write remote commit ID
